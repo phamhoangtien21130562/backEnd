@@ -1,2 +1,32 @@
-package PACKAGE_NAME;public class main {
+import migration.commentsMigration;
+import migration.productCateMigration;
+import migration.userMigration;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class main {
+    public static void main(String[] args) {
+        try {
+            Connection conn = testConnectionDB.getConnection();
+            System.out.println("Connected");
+            Statement statement = conn.createStatement();
+            String userQuery = userMigration.createTableQuery;
+            String commentsQuery = commentsMigration.createTableQuery;
+            String categoriesQuery = userMigration.createTableQuery;
+            String productCateQuery = productCateMigration.createTableQuery;
+            statement.executeUpdate(userQuery);
+            System.out.println("sucessfully created users table");
+            statement.executeUpdate(commentsQuery);
+            System.out.println("sucessfully created comments table");
+            statement.executeUpdate(categoriesQuery);
+            System.out.println("sucessfully created categories table");
+            statement.executeUpdate(productCateQuery);
+            System.out.println("sucessfully created products_categories table");
+        }catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
 }
