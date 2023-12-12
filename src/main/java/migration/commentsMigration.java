@@ -6,10 +6,10 @@ public class commentsMigration {
             "name VARCHAR(255) NOT NULL ," +
             "content VARCHAR(255) NOT NULL ," +
             "rating VARCHAR(255) NOT NULL ," +
-            "product_id VARCHAR(255),FOREIGN KEY (product_id) REFERENCES products(id),"+
-            "user_id VARCHAR(255),FOREIGN KEY (user_id) REFERENCES users(id),"+
+            "productId INT,FOREIGN KEY (productId) REFERENCES products(id),"+
+            "userId INT,FOREIGN KEY (userId) REFERENCES users(id),"+
             "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +")";
 
 }
 
-}
+

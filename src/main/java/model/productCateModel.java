@@ -1,27 +1,27 @@
 package model;
 
 public class productCateModel {
-    private String product_id;
-    private String category_id;
+    private int productId;
+    private int categoryId;
 
-    public String getProduct_id() {
-        return product_id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public String getCategory_id() {
-        return category_id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public productCateModel(String product_id, String category_id) {
-        this.product_id = product_id;
-        this.category_id = category_id;
+    public productCateModel(int productId, int categoryId) {
+        this.productId = productId;
+        this.categoryId = categoryId;
     }
 }
