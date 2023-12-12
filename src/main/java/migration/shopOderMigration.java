@@ -14,7 +14,7 @@ public class shopOderMigration {
             "customer_name VARCHAR(255) NOT NULL ," +
             "customer_phone VARCHAR(255) NOT NULL ," +
             "methord_pay VARCHAR(255) NOT NULL ," +
-            "note VARCHAR(255) NOT NULL ," +
+            "note VARCHAR(255) NOT NULL ," +")";
 }
 
 

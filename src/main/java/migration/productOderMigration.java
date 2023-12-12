@@ -6,4 +6,4 @@ public class productOderMigration {
             "product_name VARCHAR(255) NOT NULL ," +
             "shopOder_id VARCHAR(255),FOREIGN KEY (user_id) REFERENCES users(id),"+
             "quantity INT NOT NULL ," +
-            "price int NOT NULL ," +
+            "price int NOT NULL ," +")";}

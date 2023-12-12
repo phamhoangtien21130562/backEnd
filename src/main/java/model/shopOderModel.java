@@ -151,4 +151,4 @@ public class shopOderModel {
                 ", method_pay='" + method_pay + '\'' +
                 ", note='" + note + '\'' +
                 '}';
-    }
+    }}
