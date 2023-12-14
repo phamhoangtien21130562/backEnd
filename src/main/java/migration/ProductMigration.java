@@ -8,7 +8,7 @@ public class ProductMigration {
             "RatingPro int NOT NULL ," +
             "Author NVARCHAR(255) NOT NULL ," +
             "Description NVARCHAR(255) NOT NULL ," +
-            "Quantity int NOT NULL ," +")";
+            "Quantity int NOT NULL " +")";
 
 
 }

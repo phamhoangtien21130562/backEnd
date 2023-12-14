@@ -1,6 +1,4 @@
-import migration.commentsMigration;
-import migration.productCateMigration;
-import migration.userMigration;
+import migration.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,8 +12,11 @@ public class main {
             Statement statement = conn.createStatement();
             String userQuery = userMigration.createTableQuery;
             String commentsQuery = commentsMigration.createTableQuery;
-            String categoriesQuery = userMigration.createTableQuery;
+            String categoriesQuery = categoriesMigration.createTableQuery;
             String productCateQuery = productCateMigration.createTableQuery;
+            String productsQuery = ProductMigration.createTableQuery;
+            statement.executeUpdate(productsQuery);
+            System.out.println("sucessfully created products table");
             statement.executeUpdate(userQuery);
             System.out.println("sucessfully created users table");
             statement.executeUpdate(commentsQuery);
