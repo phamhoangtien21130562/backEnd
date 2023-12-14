@@ -1,16 +1,16 @@
 package model;
 
 public class categoriesModel {
-    private String id;
+    private int id;
     private String name;
     private String description;
     private String isActive;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -38,7 +38,7 @@ public class categoriesModel {
         this.isActive = isActive;
     }
 
-    public categoriesModel(String id, String name, String description, String isActive) {
+    public categoriesModel(int id, String name, String description, String isActive) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -1,18 +1,18 @@
 package model;
 
 public class commentsModel {
-    private String id;
+    private int id;
     private String name;
     private String content;
     private String rating;
-    private String product_id;
-    private String user_id;
+    private int productId;
+    private int userId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,28 +40,28 @@ public class commentsModel {
         this.rating = rating;
     }
 
-    public String getProduct_id() {
-        return product_id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public commentsModel(String id, String name, String content, String rating, String product_id, String user_id) {
+    public commentsModel(int id, String name, String content, String rating, int productId, int userId) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.rating = rating;
-        this.product_id = product_id;
-        this.user_id = user_id;
+        this.productId = productId;
+        this.userId = userId;
     }
 }
