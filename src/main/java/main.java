@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class main {
     public static void main(String[] args) {
         try {
-            Connection conn = testConnectionDB.getConnection();
+            Connection conn = testConnectionDB.Dbcontext();
             System.out.println("Connected");
             Statement statement = conn.createStatement();
             String userQuery = userMigration.createTableQuery;
@@ -25,9 +25,11 @@ public class main {
             System.out.println("sucessfully created categories table");
             statement.executeUpdate(productCateQuery);
             System.out.println("sucessfully created products_categories table");
+            conn.close();
         }catch (SQLException e) {
             e.printStackTrace();
 
         }
+
     }
 }
