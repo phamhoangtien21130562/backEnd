@@ -1,13 +1,23 @@
 
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter @AllArgsConstructor()
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Data
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class userModel {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private String email;
     private String address;
@@ -16,6 +26,8 @@ public class userModel {
     private String username;
     private String password;
     private int role;
+    private String image;
+
 
 
 }
