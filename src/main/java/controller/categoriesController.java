@@ -1,4 +1,4 @@
-package service;
+package controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/categories")
-public class categoriesService extends HttpServlet {
+public class categoriesController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter rs = response.getWriter();
