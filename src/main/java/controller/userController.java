@@ -6,6 +6,7 @@ import migration.testConnectionDB;
 import model.userModel;
 import service.userService;
 import util.ParseRequest;
+import util.ParseResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,25 +22,39 @@ import java.sql.*;
 public class userController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        PrintWriter rs = response.getWriter();
+
         //lấy param từ request
-        String paramValue = request.getParameter("username");
-        rs.print("Hello World");
-        rs.flush();
-        rs.close();
+        try {
+
+            String paramValue = request.getParameter("id");
+
+
+
+            userModel user = userService.getById(Integer.parseInt(paramValue));
+            ParseResponse.Res(response, ParseResponse.HttpStatus.OK,user);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             userModel data = ParseRequest.toObject(request,userModel.class);
-            ResultSet checkUser = userService.getOne(userService.UserProp.username,data.getUsername());
+
+//            ResultSet checkId= userService.getById(data.getId());
+
+            ResultSet checkUsername = userService.getOne(userService.UserProp.username,data.getUsername());
             System.out.println("Run");
-            if(checkUser.next()==true){
+            if(checkUsername.next()==true){
                 response.setStatus(200);
                 response.setContentType("text/plain");
                 response.getWriter().println("Checked");
                 return;
+
             }
+
             String checkSql = "SELECT username, email, phone " +
                     "FROM users  WHERE username = ? OR email = ? OR phone = ? ";
             PreparedStatement checkStm = testConnectionDB.stm(checkSql);

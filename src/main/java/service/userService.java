@@ -1,5 +1,6 @@
 package service;
 
+import lombok.Data;
 import migration.testConnectionDB;
 import model.userModel;
 
@@ -12,26 +13,25 @@ import java.util.List;
 import java.util.Map;
 
 public class userService  {
-    public enum UserProp{
-        username("username");
-        private final String value;
-        UserProp(String value) {
-            this.value = value;
-        }
 
-        public String getValue() {
-            return value;
-        }
+
+    public enum UserProp{
+        username,
+        phone,
+        email;
 
 
 
     };
 
+
+
+
    public static ResultSet getOne(UserProp by, String value  ) throws SQLException {
-       String findingVal = by.getValue();
+       String findingVal = by.name();
        ResultSet  checkResult = null;
        try {
-           String getOneSql = "SELECT " + findingVal +
+           String getOneSql = "SELECT * " + findingVal +
                    " FROM users WHERE " + findingVal + " = ?";
            PreparedStatement stm = testConnectionDB.stm(getOneSql);
            stm.setString(1,value);
@@ -42,6 +42,35 @@ public class userService  {
        }
        return checkResult;
    }
+
+    public static userModel getById( int id  ) throws SQLException {
+
+
+        userModel user = new userModel();
+        try {
+            String getOneSql = "SELECT * " +
+                    " FROM users WHERE id = ? ";
+            PreparedStatement stm = testConnectionDB.stm(getOneSql);
+            stm.setInt(1,id);
+            ResultSet checkResult = stm.executeQuery();
+            while (checkResult.next()){
+                user.setName(checkResult.getString("name"));
+
+            }
+            checkResult.close();
+
+        }catch (SQLException e){
+
+
+
+           throw new Error(e);
+
+        }
+
+        return user;
+    }
+
+
 
 
 }
