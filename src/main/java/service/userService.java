@@ -31,7 +31,7 @@ public class userService  {
        String findingVal = by.name();
        ResultSet  checkResult = null;
        try {
-           String getOneSql = "SELECT * " + findingVal +
+           String getOneSql = "SELECT * " +
                    " FROM users WHERE " + findingVal + " = ?";
            PreparedStatement stm = testConnectionDB.stm(getOneSql);
            stm.setString(1,value);
