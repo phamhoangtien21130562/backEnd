@@ -38,73 +38,85 @@ public class userController extends HttpServlet {
         }
 
     }
+    //delete user: Tien
+    protected  void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+        try {
 
+            userModel data = ParseRequest.toObject(request, userModel.class);
+            userModel user = userService.getOne(userService.UserProp.username, data.getUsername());
+            String sqlDel ="DELETE from users WHERE id=?";
+            try(PreparedStatement statement = testConnectionDB.stm(sqlDel)){
+                statement.setInt(1,data.getId());
+                int rowexc =statement.executeUpdate();
+                if(rowexc > 0){
+                    System.out.println("user delete successfully!");
+                }else {
+                    System.out.println("No user found with the given ID.");
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    protected void doPut(HttpServletRequest request, HttpServletResponse response){
+        try {
+
+            userModel data = ParseRequest.toObject(request, userModel.class);
+            ResultSet checkUsername = null;
+            userModel user = userService.getOne(userService.UserProp.username, data.getUsername());
+            if (user==null){
+                ParseResponse.textRes(response, ParseResponse.HttpStatus.NOT_FOUND,"Khong tim thay user");
+            }
+
+            String sqlUD = "UPDATE users SET image=?, phone=?, email=?, address=?, username=?, password=?, birthday=?, role=?, name=? WHERE id=?";
+            try (PreparedStatement statement = testConnectionDB.stm(sqlUD)) {
+                statement.setString(1, data.getImage());
+                statement.setString(2, data.getPhone());
+                statement.setString(3, data.getEmail());
+                statement.setString(4, data.getAddress());
+                statement.setString(5, data.getUsername());
+                statement.setString(6, data.getPassword());
+                statement.setString(7, data.getBirthday());
+                statement.setInt(8, data.getRole());
+                statement.setString(9, data.getName());
+                statement.setInt(10, data.getId()); // Update id nhập vào "Where id"
+
+                int rowexc = statement.executeUpdate();
+                if (rowexc > 0) {
+                    System.out.println("User updated successfully!");
+                    return;
+                } else {
+                    System.out.println("No user found with the given ID.");
+                    return;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            userModel data = ParseRequest.toObject(request,userModel.class);
+            userModel data = ParseRequest.toObject(request, userModel.class);
+            userModel user = userService.getOne(userService.UserProp.username, data.getUsername());
 
-//            ResultSet checkId= userService.getById(data.getId());
+            if (user!=null){
+                ParseResponse.textRes(response, ParseResponse.HttpStatus.INTERNAL_SERVER_ERROR,"User da ton tai");
+            }
 
-            ResultSet checkUsername = userService.getOne(userService.UserProp.username,data.getUsername());
-            System.out.println("Run");
-            if(checkUsername.next()==true){
-                response.setStatus(200);
-                response.setContentType("text/plain");
-                response.getWriter().println("Checked");
+            boolean isSuccess= userService.createUser(data);
+            if (!isSuccess){
+                ParseResponse.textRes(response, ParseResponse.HttpStatus.INTERNAL_SERVER_ERROR,"Tao khong thanh cong");
                 return;
-
-            }
-
-            String checkSql = "SELECT username, email, phone " +
-                    "FROM users  WHERE username = ? OR email = ? OR phone = ? ";
-            PreparedStatement checkStm = testConnectionDB.stm(checkSql);
-            checkStm.setString(1,data.getUsername());
-            checkStm.setString(2,data.getEmail());
-            checkStm.setString(3,data.getPhone());
-            ResultSet checkResult = checkStm.executeQuery();
-            if(checkResult.next()==true){
-
-                response.setStatus(401);
-                response.setContentType("text/plain");
-                response.getWriter().println("Tai khoan da ton tai");
-                return;
-
-            }
-            String sql = "INSERT INTO users(image, phone, email, address,username, password, birthday,role,name) " +
-                    "VALUES(?,?,?,?,?,?,?,?,?)";
-
-            PreparedStatement statement = testConnectionDB.stm(sql);
-
-            statement.setString(1,data.getImage());
-            statement.setString(2,data.getPhone());
-            statement.setString(3,data.getEmail());
-            statement.setString(4,data.getAddress());
-            statement.setString(5,data.getUsername());
-            statement.setString(6,data.getPassword());
-            statement.setString(7,data.getBirthday());
-            statement.setInt(8,data.getRole());
-            statement.setString(9,data.getName());
-
-            int rowexc = statement.executeUpdate();
-            ResultSet generatedKey = statement.getGeneratedKeys();
-            int generatedID =-1;
-            if (generatedKey.next()){
-                generatedID = generatedKey.getInt(1);
-                data.setId(generatedID);
-            }
-            if(generatedID == -1){
-
-                statement.close();
-                generatedKey.close();
-                throw new SQLException(new Throwable());
-
             }
             String json = ParseRequest.toJson(data);
             response.setContentType("application/json");
             response.getWriter().println(json);
 
-            statement.close();
-            generatedKey.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
