@@ -44,7 +44,7 @@ public class ParseResponse {
 
 
     }
-    public static <T> void  textRes(HttpServletResponse res, HttpStatus status,T data ) throws IOException {
+    public static <T> void  textRes(HttpServletResponse res, HttpStatus status,T data ) {
 
 
         try {
@@ -59,10 +59,7 @@ public class ParseResponse {
 
         } catch (IOException e) {
             res.setStatus(500);
-            PrintWriter rse = res.getWriter();
-            rse.println("{'error':'query thanh cong nhung tra ve that bai'}");
-            rse.flush();
-            rse.close();
+
         }
 
 
