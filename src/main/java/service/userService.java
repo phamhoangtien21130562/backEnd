@@ -184,6 +184,54 @@ public class userService  {
 
         return isSuccess;
     }
+    public static boolean updateUser(userModel data){
+        String sqlUD = "UPDATE users SET image=?, phone=?, email=?, address=?, username=?, password=?, birthday=?, role=?, name=? WHERE id=?";
+        boolean isSuccess = false;
+        try (PreparedStatement statement = testConnectionDB.stm(sqlUD)) {
+            statement.setString(1, data.getImage());
+            statement.setString(2, data.getPhone());
+            statement.setString(3, data.getEmail());
+            statement.setString(4, data.getAddress());
+            statement.setString(5, data.getUsername());
+            statement.setString(6, data.getPassword());
+            statement.setString(7, data.getBirthday());
+            statement.setInt(8, data.getRole());
+            statement.setString(9, data.getName());
+            statement.setInt(10, data.getId()); // Update id nhập vào "Where id"
+
+            int rowexc = statement.executeUpdate();
+            if (rowexc > 0) {
+                statement.close();
+                isSuccess = true;
+
+            } else {
+                isSuccess = false;
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
+    public static boolean deleteUser(userModel data) {
+        String sqlDel = "DELETE from users WHERE id=?";
+        boolean isSuccess = false;
+        try (PreparedStatement statement = testConnectionDB.stm(sqlDel)) {
+            statement.setInt(1, data.getId());
+            int rowexc = statement.executeUpdate();
+            if (rowexc > 0) {
+                isSuccess = true;
+                statement.close();
+            } else {
+                isSuccess = false;
+                statement.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
 
 
 
