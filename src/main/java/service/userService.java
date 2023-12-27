@@ -27,7 +27,7 @@ public class userService  {
 
 
 
-    public static userModel getOne(UserProp by, String value  ) throws SQLException {
+    public static List<userModel> getOne(UserProp by, String value  ) throws SQLException {
         userModel user=new userModel();
         String findingVal = by.name();
         ResultSet  checkResult = null;
@@ -37,12 +37,12 @@ public class userService  {
             PreparedStatement stm = testConnectionDB.stm(getOneSql);
             stm.setString(1,value);
             checkResult = stm.executeQuery();
-            um(checkResult,user);
+
 
         }catch (SQLException e){
             throw new Error(e.toString());
         }
-        return user;
+        return  um(checkResult);
     }
     public static userModel getUpdate(UserProp by, String value  ) throws SQLException {
         userModel user=new userModel();
@@ -52,7 +52,7 @@ public class userService  {
             PreparedStatement stm = testConnectionDB.stm(sqlUD);
             stm.setString(1,value);
             checkResult = stm.executeQuery();
-            um(checkResult,user);
+            um(checkResult);
 
         }catch (SQLException e){
             throw new Error(e.toString());
@@ -67,7 +67,7 @@ public class userService  {
             PreparedStatement stm = testConnectionDB.stm(sqlDel);
             stm.setString(1,value);
             checkResult = stm.executeQuery();
-            um(checkResult,user);
+            um(checkResult);
 
         }catch (SQLException e){
             throw new Error(e.toString());
@@ -83,7 +83,7 @@ public class userService  {
             PreparedStatement stm = testConnectionDB.stm(sqlInsert);
             stm.setString(1,value);
             checkResult = stm.executeQuery();
-            um(checkResult,user);
+            um(checkResult);
 
         }catch (SQLException e){
             throw new Error(e.toString());
@@ -91,21 +91,20 @@ public class userService  {
         return user;
     }
 
-    public static userModel getById( int id  ) throws SQLException {
-
-
+    public static List<userModel> getById( int id  ) throws SQLException {
         userModel user = new userModel();
+        ResultSet checkResult = null;
         try {
             String getOneSql = "SELECT * " +
                     " FROM users WHERE id = ? ";
             PreparedStatement stm = testConnectionDB.stm(getOneSql);
             stm.setInt(1,id);
-            ResultSet checkResult = stm.executeQuery();
-            while (checkResult.next()){
-                user.setName(checkResult.getString("name"));
+           checkResult = stm.executeQuery();
 
-            }
-            checkResult.close();
+
+
+
+
 
         }catch (SQLException e){
 
@@ -115,14 +114,30 @@ public class userService  {
 
         }
 
-        return user;
+        return um(checkResult);
     }
-    public static userModel um(ResultSet resultSet, userModel user) {
+    public static List<userModel> getAll( ) throws SQLException {
 
+
+        ResultSet checkResult = null;
         try {
-            if (resultSet.next() == true) {
-                // Chuyển đổi ResultSet thành đối tượng UserModel
+            String getOneSql = "SELECT * FROM users ";
+            PreparedStatement stm = testConnectionDB.stm(getOneSql);
+            checkResult = stm.executeQuery();
+        }catch (SQLException e){
 
+            throw new Error(e);
+
+        }
+
+        return um(checkResult);
+    }
+    public static List<userModel> um(ResultSet resultSet) {
+        List<userModel> users = new ArrayList<>();
+        try {
+             while(resultSet.next()) {
+                // Chuyển đổi ResultSet thành đối tượng UserModel
+                 userModel user = new userModel();
                 user.setId(resultSet.getInt("id"));
                 try {
                     user.setName(resultSet.getString("name"));
@@ -132,15 +147,18 @@ public class userService  {
                     user.setRole(resultSet.getInt("role"));
                     user.setImage(resultSet.getString("image"));
                     user.setUsername(resultSet.getString("username"));
+                    users.add(user);
+
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
 
-            }else return null;
+            };
+             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return user;
+        return users;
     }
     public static boolean createUser(userModel data) {
         String sql = "INSERT INTO users(image, phone, email, address,username, password, birthday,role,name) " +
@@ -200,6 +218,7 @@ public class userService  {
             statement.setInt(10, data.getId()); // Update id nhập vào "Where id"
 
             int rowexc = statement.executeUpdate();
+
             if (rowexc > 0) {
                 statement.close();
                 isSuccess = true;
