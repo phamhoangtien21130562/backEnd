@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class ParseRequest {
     public static <T> T toObject(HttpServletRequest request, Class<T> modelclass ) {
+
         StringBuilder requestBody = new StringBuilder();
         BufferedReader reader = null;
         T returnjson=null;
@@ -21,8 +22,11 @@ public class ParseRequest {
 
 
 //            String bodyData = requestBody.toString();
+            System.out.println(request.getParameter("username"));
+            System.out.println(requestBody.toString());
+            System.out.println();
             Gson gson = new Gson();
-            returnjson = gson.fromJson(requestBody.toString(), modelclass);
+            returnjson = gson.fromJson(String.valueOf(requestBody), modelclass);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
