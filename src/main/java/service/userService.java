@@ -232,6 +232,19 @@ public class userService  {
         }
         return isSuccess;
     }
+//    phần đăng nhập
+public static boolean authenticateUser(String username, String password) {
+    String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    try (PreparedStatement statement = testConnectionDB.stm(sql)) {
+        statement.setString(1, username);
+        statement.setString(2, password);
+        ResultSet resultSet = statement.executeQuery();
+
+        return resultSet.next(); // Trả về true nếu có kết quả
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
     public static boolean deleteUser(userModel data) {
         String sqlDel = "DELETE from users WHERE id=?";
         boolean isSuccess = false;
