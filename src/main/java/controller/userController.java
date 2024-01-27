@@ -94,7 +94,13 @@ public class userController extends HttpServlet {
                 ParseResponse.textRes(response, ParseResponse.HttpStatus.INTERNAL_SERVER_ERROR,"Tao khong thanh cong");
                 return;
             }
-            String json = ParseRequest.toJson(data);
+            // Lấy thông tin người dùng sau khi thêm thành công
+            List<userModel> newUser = userService.getOne(userService.UserProp.username, data.getUsername());
+
+            // Chuyển đổi thành đối tượng JSON
+            String json = ParseRequest.toJson(newUser);
+
+            // Gửi thông tin người dùng mới về cho client
             response.setContentType("application/json");
             response.getWriter().println(json);
 
