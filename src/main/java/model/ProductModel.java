@@ -1,43 +1,32 @@
 package model;
 
 public class ProductModel {
-    private String Id;
-    private String NamePro;
+    private int id;
+    private String namePro;
     private double price;
-    private String ImagePro;
-    private int RatingPro;
-    private String Author;
-    private String Description;
-    private int Quantity;
+    private String imagePro;
+    private int ratingPro;
+    private String author;
+    private String description;
+    private int quantity;
 
     public ProductModel() {
     }
 
-    public ProductModel(String id, String namePro, double price, String imagePro, int ratingPro, String author, String description, int quantity) {
-        Id = id;
-        NamePro = namePro;
-        this.price = price;
-        ImagePro = imagePro;
-        RatingPro = ratingPro;
-        Author = author;
-        Description = description;
-        Quantity = quantity;
+    public int getId() {
+        return id;
     }
 
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNamePro() {
-        return NamePro;
+        return namePro;
     }
 
     public void setNamePro(String namePro) {
-        NamePro = namePro;
+        this.namePro = namePro;
     }
 
     public double getPrice() {
@@ -49,56 +38,56 @@ public class ProductModel {
     }
 
     public String getImagePro() {
-        return ImagePro;
+        return imagePro;
     }
 
     public void setImagePro(String imagePro) {
-        ImagePro = imagePro;
+        this.imagePro = imagePro;
     }
 
     public int getRatingPro() {
-        return RatingPro;
+        return ratingPro;
     }
 
     public void setRatingPro(int ratingPro) {
-        RatingPro = ratingPro;
+        this.ratingPro = ratingPro;
     }
 
     public String getAuthor() {
-        return Author;
+        return author;
     }
 
     public void setAuthor(String author) {
-        Author = author;
+        this.author = author;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public int getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
-        Quantity = quantity;
+        this.quantity = quantity;
     }
 
     @Override
     public String toString() {
         return "ProductModel{" +
-                "Id='" + Id + '\'' +
-                ", NamePro='" + NamePro + '\'' +
+                "id=" + id +
+                ", namePro='" + namePro + '\'' +
                 ", price=" + price +
-                ", ImagePro='" + ImagePro + '\'' +
-                ", RatingPro=" + RatingPro +
-                ", Author='" + Author + '\'' +
-                ", Description='" + Description + '\'' +
-                ", Quantity=" + Quantity +
+                ", imagePro='" + imagePro + '\'' +
+                ", ratingPro=" + ratingPro +
+                ", author='" + author + '\'' +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
                 '}';
     }
 }
